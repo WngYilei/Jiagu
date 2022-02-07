@@ -4,11 +4,11 @@ plugins {
     id("jiagu-plugin")
 }
 
-val jiaguExtension = the<jiagu.JiaguExtension>()
-jiaguExtension.jarPath.set("/Users/wyl/Downloads/360jiagubao_mac/jiagu/jiagu.jar")
-jiaguExtension.username.set("18222240810")
-jiaguExtension.pwd.set("xiaolei521")
-
+jiagu{
+    jarPath.set("/Users/wyl/Downloads/360jiagubao_mac/jiagu/jiagu.jar")
+    username.set("18222240810")
+    pwd.set("xiaolei521")
+}
 
 android {
     compileSdk = 30

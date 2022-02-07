@@ -23,22 +23,17 @@ abstract class ApkTask : DefaultTask() {
     fun taskAction() {
         val builtArtifacts = builtArtifactsLoader.get().load(apkFolder.get()) ?: throw RuntimeException("Cannot load APKs")
 
-        val baseAppModuleExtension =
-            project.extensions.getByType(BaseAppModuleExtension::class.java)
+        val baseAppModuleExtension = project.extensions.getByType(BaseAppModuleExtension::class.java)
         val signingConfig = baseAppModuleExtension.signingConfigs.getByName("release")
         builtArtifacts.elements.forEach {
             val apk = File(it.outputFile)
             project.exec {
-                commandLine(
-                    "java",
-                    "-jar",
-                    jiagu.jarPath.get(),
-                    "-login",
-                    jiagu.username.get(),
-                    jiagu.pwd.get()
-                )
+                commandLine("java", "-jar", jiagu.jarPath.get(), "-login", jiagu.username.get(), jiagu.pwd.get())
+
+
                 commandLine("java", "-jar", jiagu.jarPath.get(), "-importsign", signingConfig.storeFile?.absolutePath,
                     signingConfig.storePassword, signingConfig.keyAlias, signingConfig.keyPassword)
+
 
                 commandLine("java", "-jar", jiagu.jarPath.get(), "-jiagu", apk.absolutePath, apk.parent, "-autosign")
             }
